@@ -1,0 +1,48 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "title": " 50s White wedding dress",
+      "imageUrl": "/images/dresses/1.jpg",
+      "price": 7500
+    },
+    {
+      "id": 2,
+      "title": "Vintage blue dress",
+      "imageUrl": "/images/dresses/2.jpg",
+      "price": 12999
+    },
+    {
+      "id": 3,
+      "title": "Dark Blue dress",
+      "imageUrl": "/images/dresses/3.jpg",
+      "price": 2300
+    },
+    {
+      "id": 4,
+      "title": "Gothic drama",
+      "imageUrl": "/images/dresses/4.jpg",
+      "price": 6000
+    },
+    {
+      "id": 5,
+      "title": "Red Ball dress",
+      "imageUrl": "/images/dresses/5.jpg",
+      "price": 1200
+    },
+    {
+      "id": 6,
+      "title": "Vintage Dress from 1950s",
+      "imageUrl": "/images/dresses/6.jpg",
+      "price": 4500
+    }
+  ],
+  "cart": [
+    {
+      "title": "Vintage blue dress",
+      "imageUrl": "/images/dresses/2.jpg",
+      "price": 12999,
+      "id": 1
+    }
+  ]
+}
