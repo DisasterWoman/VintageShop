@@ -61,7 +61,6 @@ const Drawer = ({onRemove,onClose, items=[]}) => {
                                 </button>
                             </div>
                         )}
-                
                 </div>
             </div>
         

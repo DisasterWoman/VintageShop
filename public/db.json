@@ -37,12 +37,5 @@
       "price": 4500
     }
   ],
-  "cart": [
-    {
-      "title": "Vintage blue dress",
-      "imageUrl": "/images/dresses/2.jpg",
-      "price": 12999,
-      "id": 1
-    }
-  ]
+  "cart": []
 }
