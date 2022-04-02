@@ -10,35 +10,36 @@ import axios from 'axios';
 function App() {
   const [cartOpened, setCartOpened] = React.useState(false);
   const [value, setValues] = React.useState('');
-
+  const [items, setItems] = React.useState([]);
+  const [cartItems, setCartItems] = React.useState([]);
+  
   const resetInputField = () => {
     setValues("");
   };
 
-  const [items, setItems] = React.useState([]);
-  const [cartItems, setCartItems] = React.useState([]);
+  
    
     React.useEffect(() => {
-      axios.get('http://localhost:3001/items')
+      axios.get('https://624849c3229b222a3fd62848.mockapi.io/Items')
       .then((res) => {
         setItems(res.data)
       });
-      axios.get(' http://localhost:3001/cart')
+      axios.get('https://624849c3229b222a3fd62848.mockapi.io/cart')
       .then((res) => {
         setCartItems(res.data);
       });
     }, [])
 
   const onAddToCart = (obj) => {
-    axios.post(' http://localhost:3001/cart', obj).then((res) => { setItems(res.data)
-  })
+    axios.post('https://624849c3229b222a3fd62848.mockapi.io/cart', obj)
     setCartItems((prev) => [...prev, obj]);
   };
+
   const onRemoveItem = (id) => {
-    console.log(id);
-     axios.delete('http://localhost:3001/cart/' + id)
+    axios.delete('https://624849c3229b222a3fd62848.mockapi.io/cart/' + id)
      setCartItems((prev) => prev.filter(items => items.id !== id));
   }; 
+ 
 
   return (
     <div className="wrapper clear">
