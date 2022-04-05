@@ -1,13 +1,14 @@
 import React from 'react'
 
-const Card = ({ imageUrl, title, price, onPlus }) => {
+const Card = ({id, imageUrl, title, price, onPlus, onFavorite, liked = false}) => {
     const [isAdded, setIsAdded] = React.useState(false);
     const onClickPlus = () => {
-        onPlus({title,imageUrl,price})
+        onPlus({title, imageUrl, price, id})
         setIsAdded(!isAdded)
     }
-    const [isAddedFav, setIsAddedFav] = React.useState(true);
+    const [isAddedFav, setIsAddedFav] = React.useState(liked);
     const onClickFav = () => {
+        onFavorite({title, imageUrl, price, id})
         setIsAddedFav(!isAddedFav)
     }
     return (
@@ -15,7 +16,7 @@ const Card = ({ imageUrl, title, price, onPlus }) => {
             <div className='card'>
                 <div>
                     <img
-                        src={isAddedFav ? '/images/heart-unliked.svg' : '/images/heart-liked.png'}
+                        src={isAddedFav ? '/images/heart-liked.png ' : '/images/heart-unliked.svg'}
                         width={23}
                         height={23}
                         alt="unliked"
