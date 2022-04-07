@@ -1,7 +1,23 @@
 import Card from '../componets/Card';
 import Carousel from '../componets/Carousel';
 import { SliderImages } from '../data/SliderImages';
-function Home({value, setValues, resetInputField, items, onAddToCart, onAddToFavourites}) {
+
+function Home({ value, setValues, resetInputField, items, onAddToCart, onAddToFavourites, cartItems, isLoading}) {
+
+    const renderItems = () => {
+        return (isLoading ? [...Array(6)] : items.filter((obj) => obj.title.toLowerCase().includes(value.toLowerCase()))) 
+                    
+                    .map((obj, index) => (
+                        <Card
+                            key={index}
+                            onPlus={(item) => onAddToCart(item)}
+                            onFavorite={(item) => onAddToFavourites(item)}
+                            added={cartItems.some((addObj) => Number(addObj.id) === Number(obj.id))}
+                            loading={isLoading}
+                            {...obj}
+                        />
+                    ))
+    };
     return(
         <div className='content'>
             <Carousel slides={SliderImages} />
@@ -23,17 +39,9 @@ function Home({value, setValues, resetInputField, items, onAddToCart, onAddToFav
                     ></img>)}
                 </div>
             </div>
+            {console.log(cartItems, items)}
             <div className='d-flex flex-wrap m-20'>
-                {items
-                    .filter((obj) => obj.title.toLowerCase().includes(value.toLowerCase()))
-                    .map((obj) => (
-                        <Card
-                            key={obj.id}
-                            onPlus={(item) => onAddToCart(item)}
-                            onFavorite={(item) => onAddToFavourites(item)}
-                            {...obj}
-                        />
-                    ))}
+                {renderItems()}
             </div>
         </div>
     );

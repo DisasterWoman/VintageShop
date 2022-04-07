@@ -1,4 +1,6 @@
 
+
+
 const Drawer = ({onRemove,onClose, items=[]}) => {
     return (
             <div className="overlay">
@@ -11,7 +13,7 @@ const Drawer = ({onRemove,onClose, items=[]}) => {
                         src="/images/remove-btn.svg"
                         alt="close" /> </h2>
                         {items.length > 0 ? (
-                            <div className="d-felx">
+                            <>
                             <div className="items">
                                 {items.map((obj) => (
                                     <div key={obj.id} className="cartItem d-flex align-center mb-20">
@@ -50,7 +52,7 @@ const Drawer = ({onRemove,onClose, items=[]}) => {
                                     alt="logo" />
                                 </button>
                             </div>
-                            </div>
+                            </>
                         ) : (
                             <div className="cartEmpty d-flex align-center justify-center flex-column flex">
                                 <img className="mb-20" width={150} height={150} src='/images/empty-cart.png' />

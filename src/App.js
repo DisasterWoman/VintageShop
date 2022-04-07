@@ -1,7 +1,5 @@
 import './App.scss';
 import Header from './componets/Header';
-
-import SearchBlock from './componets/SearchBlock';
 import React from 'react';
 import { Route } from 'react-router-dom'
 import Drawer from './componets/Drawer';
@@ -15,25 +13,28 @@ function App() {
   const [items, setItems] = React.useState([]);
   const [cartItems, setCartItems] = React.useState([]);
   const [favorites, setFavorites] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true)
 
   const resetInputField = () => {
     setValues("");
   };
 
   React.useEffect(() => {
-    axios.get('https://624849c3229b222a3fd62848.mockapi.io/Items')
-      .then((res) => {
-        setItems(res.data)
-      });
-    axios.get('https://624849c3229b222a3fd62848.mockapi.io/cart')
-      .then((res) => {
-        setCartItems(res.data);
-      });
-    axios.get('https://624849c3229b222a3fd62848.mockapi.io/favourites')
-      .then((res) => {
-        setFavorites(res.data)
-      })
-  }, [])
+    async function fetchData () {
+      
+    const cartResponse = await axios.get('https://624849c3229b222a3fd62848.mockapi.io/cart');
+    const favResponse = await axios.get('https://624849c3229b222a3fd62848.mockapi.io/favourites');
+    const itemsResponse = await axios.get('https://624849c3229b222a3fd62848.mockapi.io/Items');  
+  
+        setIsLoading(false)
+
+        setCartItems(cartResponse.data);
+        setFavorites(favResponse.data);
+        setItems(itemsResponse.data);
+
+    }
+    fetchData();
+  }, []);
 
   const onAddToCart = (obj) => {
     try {
@@ -45,7 +46,6 @@ function App() {
       setCartItems((prev) => [...prev, obj]);
       }
     } catch (error) {
-
     }
   };
   const onRemoveItem = (id) => {
@@ -74,19 +74,21 @@ function App() {
         onClose={() => setCartOpened(false)} /> : null}
       <Header onClickCart={() => setCartOpened(true)} />
       <Route path="/" exact>
-        <Home items={items}
-          value={value}
-          setValues={setValues}
-          resetInputField={resetInputField}
-          onAddToCart={onAddToCart}
-          onAddToFavourites={onAddToFavourites}
+        <Home
+              items={items}
+              cartItems = {cartItems}
+              value={value}
+              setValues={setValues}
+              resetInputField={resetInputField}
+              onAddToCart={onAddToCart}
+              onAddToFavourites={onAddToFavourites} 
+              isLoading = {isLoading}
         />
       </Route>
       <Route path="/favorites" exact>
         <Favorites items={favorites}
           onAddToFavourites={onAddToFavourites} />
       </Route>
-
     </div>
   );
 }
