@@ -1,10 +1,43 @@
+import React from 'react';
+import axios from 'axios';
+import { GlobalContext } from "../../App";
+import Info from "../Info";
+import styles from './Drawer.module.scss';
+console.log(styles)
 
 
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const Drawer = ({onRemove,onClose, items=[]}) => {
+const Drawer = ({ onRemove, onClose, items=[], opened }) => {
+
+    const { cartItems, setCartItems } = React.useContext(GlobalContext);
+    const [isCompleted, setIsCompleted] = React.useState(false);
+    const [orderId, setOrserId] = React.useState(null);
+    const [isLoading, setIsLoading] = React.useState(false);
+    const priceCounter = cartItems.reduce((total, obj) => (obj.price + total), 0)
+
+    const onClickOrder = async () => {
+      try {
+          setIsLoading()
+          const { data } = await axios.post('https://624849c3229b222a3fd62848.mockapi.io/orders', {items: cartItems});
+          setOrserId(data.id); 
+          setIsCompleted(true);
+          setCartItems([]);
+
+          for (let i = 0; i < cartItems.length; i++) {
+              const item = cartItems[i];
+             await axios.delete('https://624849c3229b222a3fd62848.mockapi.io/cart/' + item.id)
+             await delay(1000);
+          } 
+
+      } catch (error) {
+          console.log('Order was not completed')
+      }
+      setIsLoading(false);
+    }
     return (
-            <div className="overlay">
-                <div className="drawer">
+        <div className={`${styles.overlay} ${opened ? styles.overlayVisible : '' }`}>
+                <div className={styles.drawer}>
                     <h2 className={" d-flex justify-between m-20 "}>Cart<img
                         className={"remove-btn  cu-p"}
                         onClick={onClose}
@@ -31,7 +64,7 @@ const Drawer = ({onRemove,onClose, items=[]}) => {
                                         className={"remove-btn"}
                                         width={15}
                                         height={15}
-                                        src="/images/remove-btn.svg"
+                                        src="images/remove-btn.svg"
                                         alt="remove" />
                                 </div>
                                 ))}
@@ -41,32 +74,26 @@ const Drawer = ({onRemove,onClose, items=[]}) => {
                                     <li>
                                         <span>Total:</span>
                                         <div> </div>
-                                        <b>21 498 $ </b>
+                                        <b>{priceCounter} $ </b>
                                     </li>
                                 </ul>
-                                <button className={"brownBtn mb-20 ml-50"}> Checkout  <img
+                            <button disabled = {isLoading} onClick={onClickOrder} className={"brownBtn mb-20 ml-50"}> Checkout  <img
                                     className={"arrow"}
                                     width={13}
                                     height={12}
-                                    src="/images/arrow.svg"
+                                    src="images/arrow.svg"
                                     alt="logo" />
                                 </button>
                             </div>
                             </>
                         ) : (
-                            <div className="cartEmpty d-flex align-center justify-center flex-column flex">
-                                <img className="mb-20" width={150} height={150} src='/images/empty-cart.png' />
-                                <h2>Empty cart</h2>
-                                <p className="opacity-6">Add at least one dress to place an order.</p>
-                            <button onClick={onClose}
-                            className="brownBtn mt-10">
-                                    Go back
-                                </button>
-                            </div>
+                    <Info title={isCompleted ? "Order completed" : "Empty cart"}
+                            description={isCompleted ? `Your order # ${orderId} is on the way ` : "Add at least one dress to place an order."} 
+                            image={isCompleted ? 'images/thank-you.png' : 'images/empty-cart.png'}
+                             />
                         )}
                 </div>
             </div>
-        
     )
 }
 

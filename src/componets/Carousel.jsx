@@ -16,24 +16,22 @@ function Carousel({ slides }) {
     return (
         <section className="slider d-flex justify-center flex-wrap mb-20">
             <div className="carouselWrap d-flex align-center">
-                <img onClick={nextSlide} className="btn left mr-50" width={13} height={13} src='/images/left.svg'></img>
+                <img onClick={nextSlide} className="btn left mr-50" width={13} height={13} src='gitimages/left.svg'></img>
                 {SliderImages.map((slide, index) => {
                     return (
                         <div className={index === current ? 'slide active' : 'slide'} key={index}>
                             {
-                                index === current && (<img src={slide.image} className='image' ></img>
+                                index === current && (<img src={slide.image} onClick={nextSlide} className='image' ></img>
                                 )}
                         </div>
                     )
                 }
                 )}
-                <img onClick={prevSlide} className="btn right ml-50" width={13} height={13} src='/images/right.svg'></img>
+                <img onClick={prevSlide} className="btn right ml-50" width={13} height={13} src='images/right.svg'></img>
 
             </div>
         </section>
     )
 }
 export default Carousel;
-/**
- * <img className="mr-25" width={490} height={271} src='/images/banner-carusel.png'></img>
- */
+

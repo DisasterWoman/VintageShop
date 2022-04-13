@@ -1,22 +1,25 @@
 import React from 'react'
-import ContentLoader from "react-content-loader";
+import ContentLoader  from "react-content-loader";
+import { GlobalContext } from "../../App"
+import styles from './Card.module.scss';
 
-const Card = ({id, imageUrl, title, price, onPlus, onFavorite, liked = false, added, loading}) => {
-    const [isAdded, setIsAdded] = React.useState(added);
+const Card = ({id, imageUrl, title, price, onPlus, onFavorite, loading = false}) => {
+
+    const { hasCartItem } = React.useContext(GlobalContext);
+    const { hasFavItem } = React.useContext(GlobalContext);
+    const obj = { title, imageUrl, price, id, parentId: id};
     const onClickPlus = () => {
-        onPlus({title, imageUrl, price, id})
-        setIsAdded(!isAdded)
+        onPlus(obj)
     }
-    const [isAddedFav, setIsAddedFav] = React.useState(liked);
     const onClickFav = () => {
-        onFavorite({title, imageUrl, price, id})
-        setIsAddedFav(!isAddedFav)
+        onFavorite(obj)
     }
     return (
-        <div className='d-flex flex-wrap'>
-            <div className='card'>
+        <div className={styles.container}>
+            <div className= {styles.card}>
                 {
                     loading ? (<ContentLoader
+                        className={styles.loader}
                         speed={2}
                         width={380}
                         height={360}
@@ -31,16 +34,18 @@ const Card = ({id, imageUrl, title, price, onPlus, onFavorite, liked = false, ad
                     </ContentLoader>) : (
                             <>
                             <div>
-                                <img
-                                    src={isAddedFav ? '/images/heart-liked.png ' : '/images/heart-unliked.svg'}
-                                    width={23}
-                                    height={23}
-                                    alt="unliked"
-                                    onClick={onClickFav}
-                                />
+                            {onFavorite && (
+                                        <img
+                                            src={hasFavItem(title) ? 'images/heart-liked.png ' : 'images/heart-unliked.svg'}
+                                            width={23}
+                                            height={23}
+                                            alt="unliked"
+                                            onClick={onClickFav}
+                                        />
+                            )}
                             </div>
                                 <img src={imageUrl}
-                                    className='item'
+                                    className={styles.item}
                                     width="165" height="150"
                                 />
                                 <h5> {title} </h5>
@@ -49,13 +54,15 @@ const Card = ({id, imageUrl, title, price, onPlus, onFavorite, liked = false, ad
                                         <span>Price:</span>
                                         <b>{price} $</b>
                                     </div>
-                                    <img
-                                        src={isAdded ? '/images/checked.svg' : '/images/plus.svg'}
+                                    {onPlus && (<img
+                                        className={styles.plus}
+                                        src={hasCartItem(id) ? 'images/checked.svg' : 'images/plus.svg'}
                                         alt='plus'
                                         onClick={onClickPlus}
                                     />
+                                    )}
                             </div>
-                            </>
+                        </>
                      )
                 }
             </div>
