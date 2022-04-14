@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/VintageShop/static/css/main.09cd72cf.css",
+    "main.js": "/VintageShop/static/js/main.2ece7895.js",
+    "index.html": "/VintageShop/index.html",
+    "main.09cd72cf.css.map": "/VintageShop/static/css/main.09cd72cf.css.map",
+    "main.2ece7895.js.map": "/VintageShop/static/js/main.2ece7895.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.09cd72cf.css",
+    "static/js/main.2ece7895.js"
+  ]
+}
