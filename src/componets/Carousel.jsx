@@ -16,7 +16,7 @@ function Carousel({ slides }) {
     return (
         <section className="slider d-flex justify-center flex-wrap mb-20">
             <div className="carouselWrap d-flex align-center">
-                <img onClick={nextSlide} className="btn left mr-50" width={13} height={13} src='gitimages/left.svg'></img>
+                <img onClick={nextSlide} className="btn left mr-50" width={13} height={13} src='images/left.svg'></img>
                 {SliderImages.map((slide, index) => {
                     return (
                         <div className={index === current ? 'slide active' : 'slide'} key={index}>
